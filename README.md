@@ -58,7 +58,7 @@ This project focuses on analyzing a comprehensive pizza sales dataset. I have us
 | File | Content |
 | :--- | :--- |
 | [Pizza_sales_analysis.sql](https://github.com/pritamverma83599-ux/Pizza_sale--Sql/blob/main/Pizza_sales_analysis.sql) | This includes mappings for all 13 business logic queries. |
-
+| README.md | Project documentation aur insights summary. |
 ---
 
 ## 💡 Key Insights Generated
