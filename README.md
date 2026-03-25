@@ -70,7 +70,7 @@ The Hawaiian Pizza,
 The Pepperoni Pizza, 
 The Thai Chicken Pizza, 
 * **Peak Demand:** most orders are placed during lunch hours( 12PM - 1 PM ) & dinner hours( 6PM - 8PM).
-* **Size Preference:** The classic category contributes the highest percentage (26.91%) to the total revenue.
+* **Size Preference:** The classic pizza category contributes the highest percentage (26.91%) to the total revenue.
 
 ---
 
