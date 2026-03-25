@@ -73,7 +73,7 @@ The Thai Chicken Pizza,
 ---
 
 ## 🔗 Professional Showcase
-Is project ki complete data visualization aur professional presentation ke liye mera LinkedIn post dekhein:
+Check out my LinkedIn post for the complete data visualization and professional presentation of this project:
 
 <a href="https://www.linkedin.com/posts/pritam-verma-02721531a_pizzahut-sales-activity-7442049581372268544-5s11?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo" target="_blank">
   <img src="https://img.shields.io/badge/LinkedIn-View%20Presentation-blue?style=for-the-badge&logo=linkedin" alt="LinkedIn">
