@@ -64,13 +64,13 @@ Is project ka focus ek comprehensive pizza sales dataset ko analyze karne par ha
 ---
 
 ## 💡 Key Insights Generated
-* **Revenue Leader:** The Classic Deluxe Pizza
-The Barbecue Chicken Pizza
-The Hawaiian Pizza
-The Pepperoni Pizza
-The Thai Chicken Pizza
-* **Peak Demand:** Most orders occur in [Month/Day name].
-* **Size Preference:** Large size pizzas contribute to [X]% of total revenue.
+* **Revenue Leader:** The Classic Deluxe Pizza ,
+The Barbecue Chicken Pizza, 
+The Hawaiian Pizza, 
+The Pepperoni Pizza, 
+The Thai Chicken Pizza, 
+* **Peak Demand:** most orders are placed during lunch hours( 12PM - 1 PM ) & dinner hours( 6PM - 8PM).
+* **Size Preference:** The classic category contributes the highest percentage (26.91%) to the total revenue.
 
 ---
 
