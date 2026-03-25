@@ -64,7 +64,11 @@ Is project ka focus ek comprehensive pizza sales dataset ko analyze karne par ha
 ---
 
 ## 💡 Key Insights Generated
-* **Revenue Leader:** [Aapke data ke hisaab se top pizza ka naam yahan likhein]
+* **Revenue Leader:** The Classic Deluxe Pizza
+The Barbecue Chicken Pizza
+The Hawaiian Pizza
+The Pepperoni Pizza
+The Thai Chicken Pizza
 * **Peak Demand:** Most orders occur in [Month/Day name].
 * **Size Preference:** Large size pizzas contribute to [X]% of total revenue.
 
