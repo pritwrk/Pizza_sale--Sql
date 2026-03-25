@@ -10,7 +10,6 @@
 ---
 
 ## 📌 Project Overview
-Is project ka focus ek comprehensive pizza sales dataset ko analyze karne par hai. Maine isme **Advanced SQL queries** ka use karke revenue trends, customer behavior, aur product performance ko explore kiya hai taaki business growth ke liye sahi data-driven decisions liye ja sakein.
 This project focuses on analyzing a comprehensive pizza sales dataset. I have used Advanced SQL queries to explore revenue trends, customer behavior, and product performance to enable data-driven decisions for business growth.
 ## 🛠️ Tech Stack & SQL Mastery
 * **Database:** MySQL
