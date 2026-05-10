@@ -1,85 +1,60 @@
 <div align="center">
-  <h1>🍕 Pizza Sales Data Analysis (SQL)</h1>
-  <p><i>Transforming raw sales data into actionable business intelligence using Advanced SQL.</i></p>
+  <h1>🍕 Pizza Hut Sales Performance Analysis (SQL)</h1>
+  <p><i>Leveraging Advanced SQL to derive data-driven insights and optimize business operations.</i></p>
 
   <img src="https://img.shields.io/badge/Database-MySQL-blue?style=for-the-badge&logo=mysql" />
-  <img src="https://img.shields.io/badge/Tool-MySQL%20Workbench-orange?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Maintained-Yes-green?style=for-the-badge" />
+  <img src="https://shields.io" />
+  <img src="https://shields.io" />
 </div>
 
 ---
 
-## 📌 Project Overview
-This project focuses on analyzing a comprehensive pizza sales dataset. I have used Advanced SQL queries to explore revenue trends, customer behavior, and product performance to enable data-driven decisions for business growth.
-## 🛠️ Tech Stack & SQL Mastery
-* **Database:** MySQL
-* **Analysis Tool:** MySQL Workbench
-* **Core Concepts:** * ⚡ **Advanced Joins** (Multiple table mapping)
-    * 📊 **CTEs & Subqueries** (Complex data flow)
-    * 📈 **Window Functions** (`RANK()`, `SUM() OVER`)
-    * 🧹 **Data Aggregation** (Grouping & Filtering)
+## 📌 Project Executive Summary
+This project analyzes **20,000+ sales records** of a Pizza Hut outlet to identify growth opportunities. Using **Advanced MySQL**, I processed raw data to extract KPIs like peak order times, revenue leaders, and customer preferences, providing actionable recommendations for inventory and marketing.
+
+## 🛠️ Technical Competencies Demonstrated
+* **Tool:** MySQL Workbench
+* **SQL Skills:** 
+    * ⚡ **Window Functions:** `RANK()`, `SUM() OVER()` for cumulative growth.
+    * 📊 **Complex Joins:** Mapping 4+ relational tables (Orders, Pizzas, Types).
+    * 📈 **Aggregations:** Multi-level `GROUP BY` and `HAVING` clauses.
+    * 🧹 **CTEs:** Used for clean and readable query logic.
 
 ---
 
-## 📊 Business Challenges & Solutions
+## 🔍 Business Questions Answered
 
-<details>
-<summary><b>1. Revenue & Pricing Analysis (Click to Expand)</b></summary>
-
-* **Total Revenue:** Calculated the overall sales impact.
-* **Premium Products:** Identified the highest-priced pizza to understand luxury vs. budget segments.
-</details>
-
-<details>
-<summary><b>2. Customer & Order Trends</b></summary>
-
-* **Order Volume:** Analyzed total orders to identify peak demand periods.
-* **Preference Mapping:** Found the most common pizza sizes preferred by customers.
-</details>
-
-<details>
-<summary><b>3. Top Performers (Sales Metrics)</b></summary>
-
-* **Best Sellers:** Ranked the Top 5 pizzas based on total quantity sold.
-* **Category Analysis:** Distribution of sales across different pizza categories.
-</details>
-
-<details>
-<summary><b>4. Advanced Business Intelligence</b></summary>
-
-* **Cumulative Growth:** Tracked revenue growth over time using rolling sums.
-* **Category Leadership:** Identified the top 3 best-performing pizzas within *each* category.
-</details>
-
----
-
-## 📂 Repository Structure
-
-| File | Content |
+| Business Goal | SQL Technique Used |
 | :--- | :--- |
-| [Pizza_sales_analysis.sql](https://github.com/pritamverma83599-ux/Pizza_sale--Sql/blob/main/Pizza_sales_analysis.sql) | This includes mappings for all 13 business logic queries. |
-| README.md | Project documentation aur insights summary. |
----
-
-## 💡 Key Insights Generated
-* **Revenue Leader:** The Classic Deluxe Pizza ,
-The Barbecue Chicken Pizza, 
-The Hawaiian Pizza, 
-The Pepperoni Pizza, 
-The Thai Chicken Pizza, 
-* **Peak Demand:** most orders are placed during lunch hours( 12PM - 1 PM ) & dinner hours( 6PM - 8PM).
-* **Size Preference:** The classic pizza category contributes the highest percentage (26.91%) to the total revenue.
+| Identify High-Value Customers | `SUM()` & `ORDER BY` |
+| Revenue Trends by Month | `DATE` functions & `GROUP BY` |
+| Top 3 Pizzas per Category | `RANK()` Window Function |
+| Cumulative Sales Growth | `Over(Order by Date)` |
 
 ---
 
-## 🔗 Professional Showcase
-Check out my LinkedIn post for the complete data visualization and professional presentation of this project:
+## 📂 Project Structure
+* 📜 **[Pizza_sales_analysis.sql](https://github.com/pritamverma83599-ux/Pizza_sale--Sql/blob/main/Pizza_sales_analysis.sql):** Main SQL script containing 13+ complex business logic queries.
+* 📊 **Dataset:** Relational schema including Order Details, Pizzas, and Pizza Types.
 
-<a href="https://www.linkedin.com/posts/pritam-verma-02721531a_pizzahut-sales-activity-7442049581372268544-5s11?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo" target="_blank">
-  <img src="https://img.shields.io/badge/LinkedIn-View%20Presentation-blue?style=for-the-badge&logo=linkedin" alt="LinkedIn">
+---
+
+## 💡 Top Strategic Insights
+* **🚀 Revenue Driver:** The **Classic Deluxe Pizza** and **Thai Chicken Pizza** are the primary revenue generators.
+* **⏰ Operational Peak:** Maximum order density occurs during **12 PM - 1 PM** and **6 PM - 8 PM** (Lunch & Dinner peaks).
+* **📦 Category Power:** The **Classic Category** dominates the market share with **26.91%** of total revenue.
+
+---
+
+## 🔗 Connect & Collaborate
+I have presented a detailed visual case study of this project on LinkedIn. You can view the full professional presentation here:
+
+<!-- यहाँ अपना नया LinkedIn Post लिंक डालें -->
+<a href="[APNA_NAYA_LINKEDIN_LINK_HERE](https://www.linkedin.com/posts/pritam-verma-02721531a_check-out-the-full-presentation-below-ugcPost-7459199657945063424-biNC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo)" target="_blank">
+  <img src="https://shields.io" alt="LinkedIn">
 </a>
 
 ---
 <div align="center">
-  Developed with ❤️ by <a href="https://github.com/pritamverma83599-ux">Pritam Verma</a>
+  Developed by <b>Pritam Verma</b> | Data Analytics Enthusiast
 </div>
