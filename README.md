@@ -127,34 +127,32 @@ This project covers **13 business logic queries** spanning revenue analysis, dem
 ---
 
 ## 💡 Key Business Insights
-
 ```
 ╔══════════════════════════════════════════════════════════════════╗
-║                     EXECUTIVE SUMMARY                           ║
+║                     EXECUTIVE SUMMARY                            ║
 ╠══════════════════════════════════════════════════════════════════╣
 ║                                                                  ║
-║  🏆  TOP 5 REVENUE LEADERS                                       ║
-║      1. Classic Deluxe Pizza                                     ║
-║      2. Barbecue Chicken Pizza                                   ║
-║      3. Hawaiian Pizza                                           ║
-║      4. Pepperoni Pizza                                          ║
-║      5. Thai Chicken Pizza                                       ║
+║   TOP 5 REVENUE LEADERS                                          ║
+║   1. Classic Deluxe Pizza                                        ║
+║   2. Barbecue Chicken Pizza                                      ║
+║   3. Hawaiian Pizza                                              ║
+║   4. Pepperoni Pizza                                             ║
+║   5. Thai Chicken Pizza                                          ║
 ║                                                                  ║
-║  ⏰  PEAK DEMAND WINDOWS                                         ║
-║      Lunch  → 12:00 PM – 1:00 PM                                 ║
-║      Dinner → 6:00 PM – 8:00 PM                                  ║
+║   PEAK DEMAND WINDOWS                                            ║
+║   Lunch  -> 12:00 PM - 1:00 PM                                   ║
+║   Dinner -> 6:00 PM - 8:00 PM                                    ║
 ║                                                                  ║
-║  📦  CATEGORY REVENUE SHARE                                      ║
-║      Classic    ████████████████░░░░  26.91%  ← Leader          ║
-║      Supreme    ████████████████░░░░  25.46%                    ║
-║      Chicken    ███████████████░░░░░  23.96%                    ║
-║      Veggie     ██████████████░░░░░░  23.68%                    ║
+║   CATEGORY REVENUE SHARE                                         ║
+║   Classic    ████████████████░░░░  26.91%  [Leader]              ║
+║   Supreme    ████████████████░░░░  25.46%                        ║
+║   Chicken    ███████████████░░░░░  23.96%                        ║
+║   Veggie     ██████████████░░░░░░  23.68%                        ║
 ║                                                                  ║
-║  📐  PREFERRED SIZE                                              ║
-║      Large (L) is the most ordered size across all categories    ║
+║   PREFERRED SIZE                                                 ║
+║   Large (L) is the most ordered size across all categories       ║
 ║                                                                  ║
 ╚══════════════════════════════════════════════════════════════════╝
-```
 
 ---
 
