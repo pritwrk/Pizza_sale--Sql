@@ -49,8 +49,8 @@ This project analyzes **20,000+ sales records** of a Pizza Hut outlet to identif
 ## 🔗 Connect & Collaborate
 I have presented a detailed visual case study of this project on LinkedIn. You can view the full professional presentation here:
 
-<!-- यहाँ अपना नया LinkedIn Post लिंक डालें -->
-<a href="[APNA_NAYA_LINKEDIN_LINK_HERE](https://www.linkedin.com/posts/pritam-verma-02721531a_check-out-the-full-presentation-below-ugcPost-7459199657945063424-biNC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo)" target="_blank">
+
+<a href="https://www.linkedin.com/posts/pritam-verma-02721531a_check-out-the-full-presentation-below-ugcPost-7459199657945063424-biNC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo" target="_blank">
   <img src="https://shields.io" alt="LinkedIn">
 </a>
 
