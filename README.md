@@ -17,7 +17,7 @@
   <a href="https://github.com/pritamverma83599-ux/Pizza_sale--Sql/blob/main/Pizza_sales_analysis.sql">
     <img src="https://img.shields.io/badge/View%20SQL%20File-%23121011?style=for-the-badge&logo=github&logoColor=white" />
   </a>
-  <a href="[[https://www.linkedin.com/posts/pritam-verma-02721531a_pizzahut-sales-activity-7442049581372268544-5s11](https://www.linkedin.com/posts/pritam-verma-02721531a_check-out-the-full-presentation-below-ugcPost-7459199657945063424-biNC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo](https://www.linkedin.com/posts/pritam-verma-02721531a_check-out-the-full-presentation-below-ugcPost-7459199657945063424-biNC/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo)">
+  <a href="https://www.linkedin.com/posts/pritam-verma-02721531a_check-out-the-full-presentation-below-ugcPost-7459199657945063424-biNC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo" target="_blank">
     <img src="https://img.shields.io/badge/LinkedIn%20Showcase-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" />
   </a>
   <a href="https://pritamverma83599-ux.github.io/Pizza_sale--Sql/" target="_blank">
@@ -221,8 +221,8 @@ git clone https://github.com/pritamverma83599-ux/Pizza_sale--Sql.git
 
 📊 Full data visualizations and presentation slides available on LinkedIn:
 
-<a href="https://www.linkedin.com/posts/pritam-verma-02721531a_pizzahut-sales-activity-7442049581372268544-5s11?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo" target="_blank">
-  <img src="[https://img.shields.io/badge/View%20Full%20Presentation%20on%20LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white](https://www.linkedin.com/posts/pritam-verma-02721531a_check-out-the-full-presentation-below-ugcPost-7459199657945063424-biNC/?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo)"alt="LinkedIn Post" />
+<a href="https://www.linkedin.com/posts/pritam-verma-02721531a_check-out-the-full-presentation-below-ugcPost-7459199657945063424-biNC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo" target="_blank">
+  <img src="https://img.shields.io/badge/View%20Full%20Presentation%20on%20LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Post" />
 </a>
 
 </div>
@@ -237,6 +237,10 @@ If you found this project useful, consider starring ⭐ the repository and follo
 
 <a href="https://github.com/pritamverma83599-ux">
   <img src="https://img.shields.io/badge/GitHub-pritamverma83599--ux-181717?style=for-the-badge&logo=github" />
+</a>
+&nbsp;
+<a href="https://www.linkedin.com/in/pritam-verma-02721531a" target="_blank">
+  <img src="https://img.shields.io/badge/LinkedIn-Pritam%20Verma-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" />
 </a>
 
 <br><br>
