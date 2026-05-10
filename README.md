@@ -2,9 +2,10 @@
   <h1>🍕 Pizza Hut Sales Performance Analysis (SQL)</h1>
   <p><i>Leveraging Advanced SQL to derive data-driven insights and optimize business operations.</i></p>
 
-  <img src="https://img.shields.io/badge/Database-MySQL-blue?style=for-the-badge&logo=mysql"/>
-  <img src="https://shields.io" />
-  <img src="https://shields.io" />
+
+  <img src="https://shields.io" alt="MySQL">
+  <img src="https://shields.io" alt="SQL">
+  <img src="https://shields.io" alt="Live">
 </div>
 
 ---
