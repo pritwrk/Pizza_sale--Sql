@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pizza Sales — SQL Analysis by Pritam Verma</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red:    #E63946;
+    --orange: #F4845F;
+    --cream:  #FFF8F0;
+    --dark:   #12100E;
+    --dark2:  #1E1B17;
+    --dark3:  #2A2520;
+    --gold:   #F2A65A;
+    --muted:  #9E9187;
+    --border: rgba(255,255,255,0.08);
+    --font-display: 'DM Serif Display', serif;
+    --font-body:    'DM Sans', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--dark);
+    color: #EDE8E1;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ─── HERO ──────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(230,57,70,0.18) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 10% 80%, rgba(244,132,95,0.1) 0%, transparent 60%),
+                var(--dark);
+    z-index: 0;
+  }
+
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    z-index: 0;
+  }
+
+  .hero > * { position: relative; z-index: 1; }
+
+  .badge-row {
+    display: flex; flex-wrap: wrap; gap: 10px;
+    justify-content: center; margin-bottom: 2.5rem;
+  }
+
+  .badge {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border-radius: 100px;
+    border: 1px solid;
+  }
+  .badge-red    { border-color: var(--red);    color: var(--red);    background: rgba(230,57,70,0.08); }
+  .badge-orange { border-color: var(--orange); color: var(--orange); background: rgba(244,132,95,0.08); }
+  .badge-gold   { border-color: var(--gold);   color: var(--gold);   background: rgba(242,166,90,0.08); }
+  .badge-muted  { border-color: var(--muted);  color: var(--muted);  background: transparent; }
+
+  .hero-emoji {
+    font-size: 72px;
+    line-height: 1;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(0 0 40px rgba(230,57,70,0.4));
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50%       { transform: translateY(-12px); }
+  }
+
+  h1.hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    line-height: 1.1;
+    margin-bottom: 1.2rem;
+    color: #FFF8F0;
+  }
+  h1.hero-title span { color: var(--red); font-style: italic; }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0 auto 2.5rem;
+    font-weight: 300;
+  }
+
+  .hero-cta {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  }
+
+  .btn {
+    font-family: var(--font-body);
+    font-size: 14px; font-weight: 500;
+    padding: 12px 26px;
+    border-radius: 8px;
+    border: none; cursor: pointer;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 8px;
+    transition: transform 0.15s, opacity 0.15s;
+  }
+  .btn:hover { transform: translateY(-2px); opacity: 0.9; }
+  .btn-primary { background: var(--red); color: #fff; }
+  .btn-outline { background: transparent; color: #EDE8E1; border: 1px solid var(--border); }
+
+  .scroll-hint {
+    margin-top: 3rem;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase;
+    animation: fadeIn 1s 0.5s both;
+  }
+  .scroll-hint svg { animation: bounce 2s ease-in-out infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(4px)} }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+
+  /* ─── SECTIONS ──────────────────────────────────────── */
+  section { padding: 5rem 2rem; }
+  .container { max-width: 900px; margin: 0 auto; }
+
+  .section-label {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--red); margin-bottom: 0.6rem;
+  }
+
+  h2.section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.2;
+    color: #FFF8F0; margin-bottom: 1rem;
+  }
+
+  .section-desc { color: var(--muted); max-width: 600px; }
+
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--red), transparent);
+    opacity: 0.3;
+    margin: 0 auto;
+  }
+
+  /* ─── STAT CARDS ─────────────────────────────────────── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px; margin-top: 3rem;
+  }
+
+  .stat-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.4rem 1.6rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .stat-card:hover { border-color: rgba(230,57,70,0.4); transform: translateY(-3px); }
+  .stat-card .label { font-size: 12px; color: var(--muted); font-weight: 400; margin-bottom: 6px; }
+  .stat-card .value { font-family: var(--font-display); font-size: 2.2rem; color: #FFF8F0; line-height: 1; }
+  .stat-card .value span { font-size: 1.2rem; color: var(--red); }
+
+  /* ─── SCHEMA ─────────────────────────────────────────── */
+  .schema-section { background: var(--dark2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  .schema-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px; margin-top: 2.5rem;
+  }
+
+  .schema-table {
+    background: var(--dark3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .schema-table-head {
+    background: rgba(230,57,70,0.12);
+    border-bottom: 1px solid rgba(230,57,70,0.2);
+    padding: 10px 14px;
+    font-family: var(--font-mono);
+    font-size: 12px; font-weight: 500;
+    color: var(--red); letter-spacing: 0.05em;
+  }
+  .schema-table-head .icon { margin-right: 6px; opacity: 0.7; }
+  .schema-table-body { padding: 10px 14px; }
+  .schema-field {
+    display: flex; align-items: center; gap: 8px;
+    padding: 4px 0;
+    font-family: var(--font-mono); font-size: 11px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .schema-field:last-child { border-bottom: none; }
+  .schema-field .fname { color: #EDE8E1; flex: 1; }
+  .schema-field .ftype { color: var(--muted); font-size: 10px; }
+  .pk-badge {
+    background: rgba(242,166,90,0.15);
+    color: var(--gold);
+    border: 1px solid rgba(242,166,90,0.3);
+    border-radius: 4px;
+    font-size: 9px; padding: 1px 5px;
+    font-weight: 600; letter-spacing: 0.05em;
+  }
+  .fk-badge {
+    background: rgba(230,57,70,0.1);
+    color: var(--orange);
+    border: 1px solid rgba(244,132,95,0.25);
+    border-radius: 4px;
+    font-size: 9px; padding: 1px 5px;
+    font-weight: 600; letter-spacing: 0.05em;
+  }
+
+  .schema-relation {
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 12px; color: var(--muted);
+    padding: 0.8rem;
+  }
+  .schema-relation svg { opacity: 0.3; }
+
+  /* ─── MODULES ────────────────────────────────────────── */
+  .modules-grid { display: grid; gap: 16px; margin-top: 2.5rem; }
+
+  .module-card {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .module-card:hover { border-color: rgba(230,57,70,0.3); }
+
+  .module-header {
+    display: flex; align-items: center; gap: 14px;
+    padding: 1.2rem 1.5rem;
+  }
+  .module-num {
+    width: 36px; height: 36px;
+    background: rgba(230,57,70,0.12);
+    border: 1px solid rgba(230,57,70,0.25);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500; color: var(--red);
+    flex-shrink: 0;
+  }
+  .module-title {
+    font-size: 15px; font-weight: 500; color: #FFF8F0; flex: 1;
+  }
+  .module-toggle {
+    width: 22px; height: 22px;
+    border: 1px solid var(--border); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.25s; color: var(--muted);
+  }
+  .module-card.open .module-toggle { transform: rotate(180deg); color: var(--red); }
+
+  .module-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4,0,0.2,1);
+    border-top: 0 solid transparent;
+  }
+  .module-card.open .module-body {
+    max-height: 600px;
+    border-top: 1px solid var(--border);
+  }
+  .module-body-inner { padding: 1.5rem; }
+
+  .query-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .query-table th {
+    text-align: left; padding: 8px 12px;
+    color: var(--muted); font-weight: 500; font-size: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .query-table td { padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .query-table tr:last-child td { border-bottom: none; }
+  .query-table td:first-child { color: var(--gold); font-family: var(--font-mono); font-size: 12px; font-weight: 500; }
+  .query-table td:nth-child(2) { color: #EDE8E1; }
+  .query-table td:nth-child(3) { color: var(--muted); font-family: var(--font-mono); font-size: 12px; }
+
+  .module-outcome {
+    margin-top: 1rem; padding: 0.8rem 1rem;
+    background: rgba(230,57,70,0.06);
+    border-left: 3px solid var(--red);
+    border-radius: 0 8px 8px 0;
+    font-size: 13px; color: var(--muted);
+  }
+  .module-outcome b { color: #EDE8E1; }
+
+  /* ─── SQL SNIPPET ────────────────────────────────────── */
+  .sql-section { background: var(--dark); }
+
+  .sql-tabs {
+    display: flex; gap: 4px; margin-bottom: 1px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sql-tab {
+    font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+    padding: 10px 18px; cursor: pointer; color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    background: none; border-top: none; border-left: none; border-right: none;
+  }
+  .sql-tab:hover { color: #EDE8E1; }
+  .sql-tab.active { color: var(--red); border-bottom-color: var(--red); }
+
+  .sql-pane { display: none; }
+  .sql-pane.active { display: block; }
+
+  .code-block {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden; margin-top: 1.5rem;
+  }
+  .code-block-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .code-block-title { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+  .code-dots { display: flex; gap: 6px; }
+  .code-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #FF5F57; }
+  .dot-y { background: #FFBD2E; }
+  .dot-g { background: #28CA40; }
+  pre {
+    padding: 1.4rem 1.6rem;
+    font-family: var(--font-mono); font-size: 13px; line-height: 1.8;
+    overflow-x: auto; color: #EDE8E1;
+  }
+  .kw { color: #F4845F; font-weight: 500; }
+  .fn { color: #F2A65A; }
+  .cm { color: #5E5A52; font-style: italic; }
+  .str { color: #82C9A0; }
+  .num { color: #8ABFE8; }
+
+  /* ─── INSIGHTS ───────────────────────────────────────── */
+  .insights-section { background: var(--dark2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+  .insights-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px; margin-top: 2.5rem;
+  }
+  @media (max-width: 660px) { .insights-grid { grid-template-columns: 1fr; } }
+
+  .insight-card {
+    background: var(--dark3); border: 1px solid var(--border); border-radius: 12px; padding: 1.4rem;
+  }
+  .insight-card h4 { font-size: 12px; font-weight: 500; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 1rem; }
+
+  .pizza-bar { margin-bottom: 10px; }
+  .pizza-bar-label { display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px; }
+  .pizza-bar-label .name { color: #EDE8E1; }
+  .pizza-bar-label .pct  { color: var(--muted); font-family: var(--font-mono); font-size: 12px; }
+  .pizza-bar-track { height: 6px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
+  .pizza-bar-fill  { height: 100%; border-radius: 100px; background: linear-gradient(90deg, var(--red), var(--orange)); transition: width 1.2s cubic-bezier(0.4,0,0.2,1); width: 0; }
+
+  .top5-list { list-style: none; }
+  .top5-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+  .top5-item:last-child { border-bottom: none; }
+  .top5-rank {
+    width: 22px; height: 22px;
+    border-radius: 50%; background: rgba(230,57,70,0.12); border: 1px solid rgba(230,57,70,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--red);
+    flex-shrink: 0;
+  }
+  .top5-rank.gold { background: rgba(242,166,90,0.12); border-color: rgba(242,166,90,0.25); color: var(--gold); }
+  .top5-name { font-size: 13px; color: #EDE8E1; flex: 1; }
+
+  .peak-blocks { display: flex; gap: 8px; }
+  .peak-block {
+    flex: 1; border-radius: 8px; padding: 12px 10px; text-align: center;
+    border: 1px solid;
+  }
+  .peak-block.hot { background: rgba(230,57,70,0.1); border-color: rgba(230,57,70,0.25); }
+  .peak-block.warm { background: rgba(244,132,95,0.07); border-color: rgba(244,132,95,0.2); }
+  .peak-block .time { font-family: var(--font-display); font-size: 1.2rem; color: #FFF8F0; }
+  .peak-block .tlabel { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  .size-row { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .size-label { font-size: 13px; color: #EDE8E1; width: 90px; flex-shrink: 0; }
+  .size-track { flex: 1; height: 8px; background: rgba(255,255,255,0.07); border-radius: 100px; overflow: hidden; }
+  .size-fill  { height: 100%; border-radius: 100px; transition: width 1.2s cubic-bezier(0.4,0,0.2,1); width: 0; }
+  .size-pct   { font-family: var(--font-mono); font-size: 12px; color: var(--muted); width: 36px; text-align: right; }
+
+  /* ─── REPO STRUCTURE ─────────────────────────────────── */
+  .repo-card {
+    background: var(--dark2); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden; margin-top: 2.5rem;
+  }
+  .repo-card-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 14px 20px; border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+  .repo-card-header span { font-family: var(--font-mono); font-size: 13px; color: var(--muted); }
+  .repo-icon { font-size: 16px; }
+  .repo-file {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 14px 20px; border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .repo-file:last-child { border-bottom: none; }
+  .repo-file-icon { color: var(--gold); font-size: 15px; margin-top: 2px; flex-shrink: 0; }
+  .repo-file a { font-family: var(--font-mono); font-size: 13px; color: var(--red); text-decoration: none; }
+  .repo-file a:hover { text-decoration: underline; }
+  .repo-file p { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  /* ─── HOW TO RUN ─────────────────────────────────────── */
+  .steps-list { counter-reset: steps; display: grid; gap: 14px; margin-top: 2rem; }
+  .step {
+    counter-increment: steps;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .step::before {
+    content: counter(steps);
+    min-width: 32px; height: 32px;
+    background: rgba(230,57,70,0.1); border: 1px solid rgba(230,57,70,0.2); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500; color: var(--red);
+    flex-shrink: 0; margin-top: 2px;
+  }
+  .step-text { font-size: 14px; color: #EDE8E1; }
+  .step-text code {
+    font-family: var(--font-mono); font-size: 12px; background: rgba(255,255,255,0.07);
+    border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--orange);
+  }
+
+  /* ─── FOOTER ─────────────────────────────────────────── */
+  footer {
+    background: var(--dark2); border-top: 1px solid var(--border);
+    padding: 3rem 2rem; text-align: center;
+  }
+  .footer-links { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+  .footer-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 13px; font-weight: 500;
+    padding: 8px 18px; border-radius: 8px; border: 1px solid var(--border);
+    color: #EDE8E1; text-decoration: none;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .footer-link:hover { border-color: var(--red); background: rgba(230,57,70,0.06); }
+  .footer-credit { margin-top: 2.5rem; font-size: 13px; color: var(--muted); }
+  .footer-credit a { color: var(--red); text-decoration: none; font-weight: 500; }
+
+  /* ─── ANIM HELPERS ───────────────────────────────────── */
+  .reveal {
+    opacity: 0; transform: translateY(24px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="badge-row">
+    <span class="badge badge-red">MySQL</span>
+    <span class="badge badge-orange">MySQL Workbench</span>
+    <span class="badge badge-gold">13 Business Queries</span>
+    <span class="badge badge-muted">Completed ✓</span>
+  </div>
+
+  <div class="hero-emoji">🍕</div>
+
+  <h1 class="hero-title">
+    Pizza Sales<br><span>Data Analysis</span>
+  </h1>
+
+  <p class="hero-sub">
+    Transforming raw pizza sales data into crisp, actionable business intelligence — one query at a time.
+  </p>
+
+  <div class="hero-cta">
+    <a href="https://github.com/pritamverma83599-ux/Pizza_sale--Sql/blob/main/Pizza_sales_analysis.sql" class="btn btn-primary" target="_blank">
+      View SQL File ↗
+    </a>
+    <a href="https://www.linkedin.com/posts/pritam-verma-02721531a_pizzahut-sales-activity-7442049581372268544-5s11" class="btn btn-outline" target="_blank">
+      LinkedIn Showcase
+    </a>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Explore the Analysis</span>
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M7 2v10M2 7l5 5 5-5" stroke="#9E9187" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════ STATS ══════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">At a Glance</div>
+    <h2 class="section-title">Project Metrics</h2>
+    <p class="section-desc">Core numbers from the dataset powering this analysis.</p>
+
+    <div class="stats-grid">
+      <div class="stat-card reveal">
+        <div class="label">Total Revenue</div>
+        <div class="value"><span>$</span>817,860</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-1">
+        <div class="label">Total Orders</div>
+        <div class="value">21,350</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-2">
+        <div class="label">Pizzas Sold</div>
+        <div class="value">49,574</div>
+      </div>
+      <div class="stat-card reveal reveal-delay-3">
+        <div class="label">Business Queries</div>
+        <div class="value">13</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════ SCHEMA ═════════════════════════════ -->
+<section class="schema-section">
+  <div class="container">
+    <div class="section-label">Database Design</div>
+    <h2 class="section-title">Dataset Schema</h2>
+    <p class="section-desc">Four relational tables connected across order, detail, pizza, and type dimensions.</p>
+
+    <div class="schema-grid">
+      <!-- orders -->
+      <div class="schema-table reveal">
+        <div class="schema-table-head">📋 orders</div>
+        <div class="schema-table-body">
+          <div class="schema-field"><span class="fname">order_id</span><span class="pk-badge">PK</span></div>
+          <div class="schema-field"><span class="fname">date</span><span class="ftype">DATE</span></div>
+          <div class="schema-field"><span class="fname">time</span><span class="ftype">TIME</span></div>
+        </div>
+      </div>
+      <!-- order_details -->
+      <div class="schema-table reveal reveal-delay-1">
+        <div class="schema-table-head">📄 order_details</div>
+        <div class="schema-table-body">
+          <div class="schema-field"><span class="fname">order_details_id</span><span class="pk-badge">PK</span></div>
+          <div class="schema-field"><span class="fname">order_id</span><span class="fk-badge">FK</span></div>
+          <div class="schema-field"><span class="fname">pizza_id</span><span class="fk-badge">FK</span></div>
+          <div class="schema-field"><span class="fname">quantity</span><span class="ftype">INT</span></div>
+        </div>
+      </div>
+      <!-- pizzas -->
+      <div class="schema-table reveal reveal-delay-2">
+        <div class="schema-table-head">🍕 pizzas</div>
+        <div class="schema-table-body">
+          <div class="schema-field"><span class="fname">pizza_id</span><span class="pk-badge">PK</span></div>
+          <div class="schema-field"><span class="fname">pizza_type_id</span><span class="fk-badge">FK</span></div>
+          <div class="schema-field"><span class="fname">size</span><span class="ftype">VARCHAR</span></div>
+          <div class="schema-field"><span class="fname">price</span><span class="ftype">DECIMAL</span></div>
+        </div>
+      </div>
+      <!-- pizza_types -->
+      <div class="schema-table reveal reveal-delay-3">
+        <div class="schema-table-head">📂 pizza_types</div>
+        <div class="schema-table-body">
+          <div class="schema-field"><span class="fname">pizza_type_id</span><span class="pk-badge">PK</span></div>
+          <div class="schema-field"><span class="fname">name</span><span class="ftype">VARCHAR</span></div>
+          <div class="schema-field"><span class="fname">category</span><span class="ftype">VARCHAR</span></div>
+          <div class="schema-field"><span class="fname">ingredients</span><span class="ftype">TEXT</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="insight-card reveal" style="margin-top: 20px; padding: 1rem 1.4rem;">
+      <p style="font-family: var(--font-mono); font-size: 12px; color: var(--muted); line-height: 1.8;">
+        orders <span style="color:var(--red)">─── 1:N ───&gt;</span> order_details
+        <span style="color:var(--border); margin: 0 12px;">|</span>
+        order_details <span style="color:var(--red)">─── N:1 ───&gt;</span> pizzas
+        <span style="color:var(--border); margin: 0 12px;">|</span>
+        pizzas <span style="color:var(--red)">─── N:1 ───&gt;</span> pizza_types
+      </p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════ MODULES ════════════════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">Business Challenges & SQL Solutions</div>
+    <h2 class="section-title">Analysis Modules</h2>
+    <p class="section-desc">13 queries organized across four analytical pillars.</p>
+
+    <div class="modules-grid" id="modules" style="margin-top: 2.5rem;">
+
+      <!-- Module 1 -->
+      <div class="module-card reveal" onclick="toggleModule(this)">
+        <div class="module-header">
+          <div class="module-num">01</div>
+          <div class="module-title">Revenue & Pricing Analysis</div>
+          <div class="module-toggle">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="module-body-inner">
+            <table class="query-table">
+              <thead><tr><th>#</th><th>Business Question</th><th>SQL Technique</th></tr></thead>
+              <tbody>
+                <tr><td>Q1</td><td>Total revenue generated</td><td>SUM(price × quantity)</td></tr>
+                <tr><td>Q2</td><td>Highest-priced pizza</td><td>ORDER BY price DESC LIMIT 1</td></tr>
+                <tr><td>Q3</td><td>Average order value</td><td>Total revenue ÷ COUNT(orders)</td></tr>
+              </tbody>
+            </table>
+            <div class="module-outcome">
+              <b>Outcome:</b> Established a revenue baseline of <b>$817,860</b> and identified the premium product tier (The Greek Pizza at $35.95).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 2 -->
+      <div class="module-card reveal" onclick="toggleModule(this)">
+        <div class="module-header">
+          <div class="module-num">02</div>
+          <div class="module-title">Customer & Order Trends</div>
+          <div class="module-toggle">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="module-body-inner">
+            <table class="query-table">
+              <thead><tr><th>#</th><th>Business Question</th><th>SQL Technique</th></tr></thead>
+              <tbody>
+                <tr><td>Q4</td><td>Total number of orders placed</td><td>COUNT(DISTINCT order_id)</td></tr>
+                <tr><td>Q5</td><td>Most preferred pizza size</td><td>GROUP BY size ORDER BY COUNT</td></tr>
+                <tr><td>Q6</td><td>Peak ordering hours</td><td>HOUR(time) extraction & GROUP BY</td></tr>
+              </tbody>
+            </table>
+            <div class="module-outcome">
+              <b>Outcome:</b> Pinpointed <b>12–1 PM (lunch)</b> and <b>6–8 PM (dinner)</b> as peak demand windows. <b>Large</b> is the most ordered size.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 3 -->
+      <div class="module-card reveal" onclick="toggleModule(this)">
+        <div class="module-header">
+          <div class="module-num">03</div>
+          <div class="module-title">Top Performer Rankings</div>
+          <div class="module-toggle">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="module-body-inner">
+            <table class="query-table">
+              <thead><tr><th>#</th><th>Business Question</th><th>SQL Technique</th></tr></thead>
+              <tbody>
+                <tr><td>Q7</td><td>Top 5 pizzas by quantity sold</td><td>SUM(quantity) GROUP BY + LIMIT 5</td></tr>
+                <tr><td>Q8</td><td>Sales distribution by category</td><td>GROUP BY category with % share</td></tr>
+                <tr><td>Q9</td><td>Category generating most revenue</td><td>Revenue aggregated per category</td></tr>
+              </tbody>
+            </table>
+            <div class="module-outcome">
+              <b>Outcome:</b> Classic category dominates at <b>26.91%</b> of total revenue. Classic Deluxe leads quantity sold.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Module 4 -->
+      <div class="module-card reveal" onclick="toggleModule(this)">
+        <div class="module-header">
+          <div class="module-num">04</div>
+          <div class="module-title">Advanced Business Intelligence</div>
+          <div class="module-toggle">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </div>
+        <div class="module-body">
+          <div class="module-body-inner">
+            <table class="query-table">
+              <thead><tr><th>#</th><th>Business Question</th><th>SQL Technique</th></tr></thead>
+              <tbody>
+                <tr><td>Q10</td><td>Cumulative revenue growth over time</td><td>SUM() OVER (ORDER BY date)</td></tr>
+                <tr><td>Q11</td><td>Average daily order volume</td><td>CTE → AVG of daily counts</td></tr>
+                <tr><td>Q12</td><td>Top 3 pizzas within each category</td><td>RANK() OVER (PARTITION BY category)</td></tr>
+                <tr><td>Q13</td><td>Revenue % per category</td><td>Subquery for total ÷ category revenue</td></tr>
+              </tbody>
+            </table>
+            <div class="module-outcome">
+              <b>Outcome:</b> Rolling revenue curves reveal sustained growth. RANK() OVER PARTITION exposes category-level leaders for targeted promotions.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════ SQL SHOWCASE ════════════════════════ -->
+<section class="sql-section">
+  <div class="container">
+    <div class="section-label">SQL Showcase</div>
+    <h2 class="section-title">Query Samples</h2>
+    <p class="section-desc">Key queries demonstrating advanced SQL concepts used across all four modules.</p>
+
+    <div style="margin-top: 2rem;">
+      <div class="sql-tabs">
+        <button class="sql-tab active" onclick="switchTab(this, 'tab-window')">Window Function</button>
+        <button class="sql-tab" onclick="switchTab(this, 'tab-cte')">CTE + Subquery</button>
+        <button class="sql-tab" onclick="switchTab(this, 'tab-rank')">RANK() Partition</button>
+      </div>
+
+      <!-- Window Function -->
+      <div id="tab-window" class="sql-pane active">
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-block-title">cumulative_revenue.sql</span>
+          </div>
+          <pre><span class="cm">-- Q10: Cumulative revenue growth over time (Rolling Window)</span>
+<span class="kw">SELECT</span>
+    date,
+    <span class="fn">SUM</span>(revenue) <span class="kw">OVER</span> (
+        <span class="kw">ORDER BY</span> date
+    ) <span class="kw">AS</span> cumulative_revenue
+<span class="kw">FROM</span> (
+    <span class="kw">SELECT</span>
+        o.date,
+        <span class="fn">SUM</span>(od.quantity * p.price) <span class="kw">AS</span> revenue
+    <span class="kw">FROM</span> orders o
+    <span class="kw">JOIN</span> order_details od  <span class="kw">ON</span> o.order_id  = od.order_id
+    <span class="kw">JOIN</span> pizzas p          <span class="kw">ON</span> od.pizza_id = p.pizza_id
+    <span class="kw">GROUP BY</span> o.date
+) daily_revenue
+<span class="kw">ORDER BY</span> date;</pre>
+        </div>
+      </div>
+
+      <!-- CTE + Subquery -->
+      <div id="tab-cte" class="sql-pane">
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-block-title">avg_daily_orders.sql</span>
+          </div>
+          <pre><span class="cm">-- Q11: Average daily order volume using CTE</span>
+<span class="kw">WITH</span> daily_orders <span class="kw">AS</span> (
+    <span class="kw">SELECT</span>
+        date,
+        <span class="fn">COUNT</span>(order_id) <span class="kw">AS</span> total_orders
+    <span class="kw">FROM</span> orders
+    <span class="kw">GROUP BY</span> date
+)
+<span class="kw">SELECT</span>
+    <span class="fn">ROUND</span>(<span class="fn">AVG</span>(total_orders), <span class="num">2</span>) <span class="kw">AS</span> avg_orders_per_day
+<span class="kw">FROM</span> daily_orders;</pre>
+        </div>
+      </div>
+
+      <!-- RANK PARTITION -->
+      <div id="tab-rank" class="sql-pane">
+        <div class="code-block">
+          <div class="code-block-header">
+            <div class="code-dots"><span class="code-dot dot-r"></span><span class="code-dot dot-y"></span><span class="code-dot dot-g"></span></div>
+            <span class="code-block-title">rank_by_category.sql</span>
+          </div>
+          <pre><span class="cm">-- Q12: Top 3 pizzas within each category using RANK()</span>
+<span class="kw">SELECT</span>
+    category,
+    name,
+    quantity,
+    rnk
+<span class="kw">FROM</span> (
+    <span class="kw">SELECT</span>
+        pt.category,
+        pt.name,
+        <span class="fn">SUM</span>(od.quantity) <span class="kw">AS</span> quantity,
+        <span class="fn">RANK</span>() <span class="kw">OVER</span> (
+            <span class="kw">PARTITION BY</span> pt.category
+            <span class="kw">ORDER BY</span> <span class="fn">SUM</span>(od.quantity) <span class="kw">DESC</span>
+        ) <span class="kw">AS</span> rnk
+    <span class="kw">FROM</span> pizza_types pt
+    <span class="kw">JOIN</span> pizzas p      <span class="kw">ON</span> pt.pizza_type_id = p.pizza_type_id
+    <span class="kw">JOIN</span> order_details od <span class="kw">ON</span> p.pizza_id = od.pizza_id
+    <span class="kw">GROUP BY</span> pt.category, pt.name
+) ranked
+<span class="kw">WHERE</span> rnk &lt;= <span class="num">3</span>
+<span class="kw">ORDER BY</span> category, rnk;</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════ INSIGHTS ═══════════════════════════ -->
+<section class="insights-section">
+  <div class="container">
+    <div class="section-label">Key Business Insights</div>
+    <h2 class="section-title">Executive Summary</h2>
+    <p class="section-desc">Findings distilled from all 13 queries across the full dataset.</p>
+
+    <div class="insights-grid">
+
+      <!-- Category Revenue -->
+      <div class="insight-card reveal">
+        <h4>Revenue by Category</h4>
+        <div class="pizza-bar">
+          <div class="pizza-bar-label"><span class="name">Classic</span><span class="pct">26.91%</span></div>
+          <div class="pizza-bar-track"><div class="pizza-bar-fill" data-width="100%"></div></div>
+        </div>
+        <div class="pizza-bar">
+          <div class="pizza-bar-label"><span class="name">Supreme</span><span class="pct">25.46%</span></div>
+          <div class="pizza-bar-track"><div class="pizza-bar-fill" data-width="94.6%"></div></div>
+        </div>
+        <div class="pizza-bar">
+          <div class="pizza-bar-label"><span class="name">Chicken</span><span class="pct">23.96%</span></div>
+          <div class="pizza-bar-track"><div class="pizza-bar-fill" data-width="89.1%"></div></div>
+        </div>
+        <div class="pizza-bar">
+          <div class="pizza-bar-label"><span class="name">Veggie</span><span class="pct">23.68%</span></div>
+          <div class="pizza-bar-track"><div class="pizza-bar-fill" data-width="88%"></div></div>
+        </div>
+      </div>
+
+      <!-- Top 5 Pizzas -->
+      <div class="insight-card reveal reveal-delay-1">
+        <h4>Top 5 Revenue Leaders</h4>
+        <ul class="top5-list">
+          <li class="top5-item"><span class="top5-rank gold">1</span><span class="top5-name">Classic Deluxe Pizza</span></li>
+          <li class="top5-item"><span class="top5-rank">2</span><span class="top5-name">Barbecue Chicken Pizza</span></li>
+          <li class="top5-item"><span class="top5-rank">3</span><span class="top5-name">Hawaiian Pizza</span></li>
+          <li class="top5-item"><span class="top5-rank">4</span><span class="top5-name">Pepperoni Pizza</span></li>
+          <li class="top5-item"><span class="top5-rank">5</span><span class="top5-name">Thai Chicken Pizza</span></li>
+        </ul>
+      </div>
+
+      <!-- Peak Hours -->
+      <div class="insight-card reveal reveal-delay-2">
+        <h4>Peak Demand Windows</h4>
+        <div class="peak-blocks">
+          <div class="peak-block hot">
+            <div class="time">12–1 PM</div>
+            <div class="tlabel">Lunch Rush</div>
+          </div>
+          <div class="peak-block warm">
+            <div class="time">6–8 PM</div>
+            <div class="tlabel">Dinner Wave</div>
+          </div>
+        </div>
+        <p style="font-size:12px; color:var(--muted); margin-top:12px;">
+          Staffing and promotional campaigns should prioritize these two daily windows.
+        </p>
+      </div>
+
+      <!-- Size Preference -->
+      <div class="insight-card reveal reveal-delay-3">
+        <h4>Order Volume by Size</h4>
+        <div class="size-row">
+          <span class="size-label">Large (L)</span>
+          <div class="size-track"><div class="size-fill" data-width="100%" style="background: var(--red);"></div></div>
+          <span class="size-pct">45%</span>
+        </div>
+        <div class="size-row">
+          <span class="size-label">Medium (M)</span>
+          <div class="size-track"><div class="size-fill" data-width="72%" style="background: var(--orange);"></div></div>
+          <span class="size-pct">30%</span>
+        </div>
+        <div class="size-row">
+          <span class="size-label">Small (S)</span>
+          <div class="size-track"><div class="size-fill" data-width="50%" style="background: var(--gold);"></div></div>
+          <span class="size-pct">21%</span>
+        </div>
+        <div class="size-row">
+          <span class="size-label">XL / XXL</span>
+          <div class="size-track"><div class="size-fill" data-width="10%" style="background: var(--muted);"></div></div>
+          <span class="size-pct">4%</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════ REPO STRUCTURE ══════════════════════ -->
+<section>
+  <div class="container">
+    <div class="section-label">Repository</div>
+    <h2 class="section-title">Project Structure</h2>
+
+    <div class="repo-card reveal">
+      <div class="repo-card-header">
+        <span class="repo-icon">📁</span>
+        <span>Pizza_sale--Sql /</span>
+      </div>
+      <div class="repo-file">
+        <span class="repo-file-icon">📄</span>
+        <div>
+          <a href="https://github.com/pritamverma83599-ux/Pizza_sale--Sql/blob/main/Pizza_sales_analysis.sql" target="_blank">Pizza_sales_analysis.sql</a>
+          <p>All 13 business logic queries — labelled by question for easy navigation.</p>
+        </div>
+      </div>
+      <div class="repo-file">
+        <span class="repo-file-icon">📝</span>
+        <div>
+          <a href="https://github.com/pritamverma83599-ux/Pizza_sale--Sql" target="_blank">README.md</a>
+          <p>Project documentation, schema diagram, insights summary, and setup guide.</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 3rem;">
+      <div class="section-label">How to Run</div>
+      <h2 class="section-title" style="font-size: 1.6rem; margin-bottom: 0.5rem;">Get Started Locally</h2>
+
+      <div class="steps-list reveal" style="margin-top: 1.5rem;">
+        <div class="step">
+          <div class="step-text">Clone the repository — <code>git clone https://github.com/pritamverma83599-ux/Pizza_sale--Sql.git</code></div>
+        </div>
+        <div class="step">
+          <div class="step-text">Open <code>MySQL Workbench</code> and connect to your local MySQL server.</div>
+        </div>
+        <div class="step">
+          <div class="step-text">Import the four dataset tables — <code>orders</code>, <code>order_details</code>, <code>pizzas</code>, <code>pizza_types</code>.</div>
+        </div>
+        <div class="step">
+          <div class="step-text">Open <code>Pizza_sales_analysis.sql</code> and run queries individually or all at once. Each is labelled with its business question.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════ FOOTER ═════════════════════════════ -->
+<footer>
+  <p style="font-family: var(--font-display); font-size: 1.6rem; color: #FFF8F0;">Built with SQL & curiosity 🍕</p>
+  <div class="footer-links">
+    <a href="https://github.com/pritamverma83599-ux/Pizza_sale--Sql" class="footer-link" target="_blank">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+      GitHub Repo
+    </a>
+    <a href="https://www.linkedin.com/posts/pritam-verma-02721531a_pizzahut-sales-activity-7442049581372268544-5s11" class="footer-link" target="_blank">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      LinkedIn Post
+    </a>
+    <a href="https://github.com/pritamverma83599-ux" class="footer-link" target="_blank">
+      View Profile ↗
+    </a>
+  </div>
+  <p class="footer-credit">
+    Developed by <a href="https://github.com/pritamverma83599-ux">Pritam Verma</a> · Pizza Sales SQL Analysis Project
+  </p>
+</footer>
+
+<script>
+  function toggleModule(card) {
+    const isOpen = card.classList.contains('open');
+    document.querySelectorAll('.module-card').forEach(c => c.classList.remove('open'));
+    if (!isOpen) card.classList.add('open');
+  }
+
+  function switchTab(btn, tabId) {
+    document.querySelectorAll('.sql-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.sql-pane').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+
+        const bars = e.target.querySelectorAll('.pizza-bar-fill, .size-fill');
+        bars.forEach(bar => {
+          setTimeout(() => { bar.style.width = bar.dataset.width; }, 150);
+        });
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  document.querySelectorAll('.pizza-bar-fill, .size-fill').forEach(bar => {
+    bar.style.width = '0';
+  });
+</script>
+</body>
+</html>
