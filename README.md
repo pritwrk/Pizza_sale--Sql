@@ -42,3 +42,74 @@
 ---
 
 ## 🗄️ Dataset Schema
+
+┌──────────────┐       ┌───────────────┐       ┌──────────────────┐       ┌──────────────┐
+│   orders     │       │ order_details │       │    pizzas        │       │ pizza_types  │
+│──────────────│       │───────────────│       │──────────────────│       │──────────────│
+│ order_id  PK │──────<│ order_id   FK │>──────│ pizza_id      PK │>──────│ pizza_type_id│
+│ date         │       │ pizza_id   FK │       │ pizza_type_id FK │       │ name         │
+│ time         │       │ quantity      │       │ size             │       │ category     │
+└──────────────┘       └───────────────┘       │ price            │       │ ingredients  │
+└──────────────────┘       └──────────────┘
+
+
+---
+
+## 🛠️ Tech Stack & SQL Concepts Used
+
+| Concept | Application |
+|---|---|
+| ⚡ **Advanced JOINs** | Linking 4 relational tables |
+| 📊 **CTEs & Subqueries** | Layered data flows |
+| 📈 **Window Functions** | `RANK()`, `SUM() OVER` for rolling revenue |
+| 🔢 **Date/Time** | Extracting peak-demand windows |
+
+---
+
+## 📊 Business Challenges & SQL Solutions
+
+<details>
+<summary><b>📌 Module 1 — Revenue & Pricing Analysis</b></summary>
+Total Revenue, Highest-priced pizza, and Average Order Value analysis.
+</details>
+
+<details>
+<summary><b>📌 Module 2 — Customer & Order Trends</b></summary>
+Order volume, Size preferences, and Peak ordering hours.
+</details>
+
+<details>
+<summary><b>📌 Module 3 — Top Performer Rankings</b></summary>
+Top 5 pizzas by quantity and Revenue distribution by category.
+</details>
+
+---
+
+## 💡 Key Business Insights
+
+```text
+╔══════════════════════════════════════════════════════════════════╗
+║                     EXECUTIVE SUMMARY                            ║
+╠══════════════════════════════════════════════════════════════════╣
+║                                                                  ║
+║   TOP 5 REVENUE LEADERS                                          ║
+║   1. Classic Deluxe Pizza                                        ║
+║   2. Barbecue Chicken Pizza                                      ║
+║   3. Hawaiian Pizza                                              ║
+║   4. Pepperoni Pizza                                             ║
+║   5. Thai Chicken Pizza                                          ║
+║                                                                  ║
+║   PEAK DEMAND WINDOWS                                            ║
+║   Lunch  -> 12:00 PM - 1:00 PM                                   ║
+║   Dinner -> 6:00 PM - 8:00 PM                                    ║
+║                                                                  ║
+║   CATEGORY REVENUE SHARE                                         ║
+║   Classic    ████████████████░░░░  26.91%  [Leader]              ║
+║   Supreme    ████████████████░░░░  25.46%                        ║
+║   Chicken    ███████████████░░░░░  23.96%                        ║
+║   Veggie     ██████████████░░░░░░  23.68%                        ║
+║                                                                  ║
+║   PREFERRED SIZE                                                 ║
+║   Large (L) is the most ordered size across all categories       ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
