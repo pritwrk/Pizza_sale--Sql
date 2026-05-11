@@ -20,7 +20,7 @@
   <a href="https://www.linkedin.com/posts/pritam-verma-02721531a_check-out-the-full-presentation-below-ugcPost-7459199657945063424-biNC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo" target="_blank">
     <img src="https://img.shields.io/badge/LinkedIn%20Showcase-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" />
   </a>
-  <a href="https://pritamverma83599-ux.github.io/Pizza_sale--Sql/" target="_blank">
+  <a href="https://pritwrk9-ux.github.io/Pizza_sale--Sql/" target="_blank">
     <img src="https://img.shields.io/badge/Live%20Dashboard-View%20Now-E63946?style=for-the-badge&logo=googlechrome&logoColor=white" />
   </a>
 </p>
@@ -43,7 +43,7 @@ This project covers **13 business logic queries** spanning revenue analysis, dem
 
 <div align="center">
 
-<a href="https://pritamverma83599-ux.github.io/Pizza_sale--Sql/" target="_blank">
+<a href="https://pritwrk9-ux.github.io/Pizza_sale--Sql/" target="_blank">
   <img src="https://img.shields.io/badge/🚀%20View%20Live%20Project%20Dashboard-Click%20Here-E63946?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Live Demo" />
 </a>
 
@@ -201,7 +201,7 @@ Pizza_sale--Sql/
 
 ```sql
 -- Step 1: Clone the repository
-git clone https://github.com/pritamverma83599-ux/Pizza_sale--Sql.git
+git clone https://github.com/pritwrk9-ux/Pizza_sale--Sql.git
 
 -- Step 2: Open MySQL Workbench and connect to your local server
 
@@ -235,8 +235,8 @@ git clone https://github.com/pritamverma83599-ux/Pizza_sale--Sql.git
 
 If you found this project useful, consider starring ⭐ the repository and following for more data projects!
 
-<a href="https://github.com/pritamverma83599-ux">
-  <img src="https://img.shields.io/badge/GitHub-pritamverma83599--ux-181717?style=for-the-badge&logo=github" />
+<a href="https://github.com/pritwrk-ux">
+  <img src="https://img.shields.io/badge/GitHub-pritwrk9--ux-181717?style=for-the-badge&logo=github" />
 </a>
 &nbsp;
 <a href="https://www.linkedin.com/in/pritam-verma-02721531a" target="_blank">
@@ -245,6 +245,6 @@ If you found this project useful, consider starring ⭐ the repository and follo
 
 <br><br>
 
-<sub>Crafted with ❤️ and a lot of SQL by <a href="https://github.com/pritamverma83599-ux"><b>Pritam Verma</b></a></sub>
+<sub>Crafted with ❤️ and a lot of SQL by <a href="https://github.com/pritwrk9-ux"><b>Pritam Verma</b></a></sub>
 
 </div>
