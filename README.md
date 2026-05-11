@@ -14,7 +14,7 @@
 </p>
 
 <p>
-  <a href="https://github.com/pritamverma83599-ux/Pizza_sale--Sql/blob/main/Pizza_sales_analysis.sql">
+  <a href="https://github.com/pritwrk-ux/Pizza_sale--Sql/blob/main/Pizza_sales_analysis.sql">
     <img src="https://img.shields.io/badge/View%20SQL%20File-%23121011?style=for-the-badge&logo=github&logoColor=white" />
   </a>
   <a href="https://www.linkedin.com/posts/pritam-verma-02721531a_check-out-the-full-presentation-below-ugcPost-7459199657945063424-biNC?utm_source=share&utm_medium=member_desktop&rcm=ACoAAFDVat8BUD5mR-4LbLCOagR_seydBq0rFDo" target="_blank">
